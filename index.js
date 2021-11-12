@@ -4,7 +4,6 @@ const consoleTable = require("console.table");
 const express = require("express");
 
 
-
 const db = mysql.createConnection(
     {
     host: "localhost",
@@ -14,7 +13,8 @@ const db = mysql.createConnection(
     password: "",
 
     database: "employee_db"
-    }
+    },
+    console.log("Connected successfully.")
 );
 
 
@@ -56,10 +56,43 @@ function startTracker(){
 }
 
 function viewEmployees(){
-   db.query()
+    db.query(`SELECT * FROM employee`, (err, result) => {
+        if (err) {
+            console.log("could not select employees from database")
+        }
+        // Print the table
+        console.table(result)
+        // Return to Main Menu
+        // trackEmployees();
+    })
 }
 
 function addEmployee(){
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the first name of the employee?",
+            name: 'employeeFirst'
+        },
+        {
+            type: "input",
+            message: "What is the last name of the employee?",
+            name: "employeeLast"
+        },
+        {
+            type: "list",
+            message: "What role will the new employee have?",
+            name: "employeeRole",
+            choices: ["Sales Lead", "Salesperson", "Lead Engineer", "Software Engineer",
+                     "Account Manager", "Accountant", "Legal Team Lead", "Lawyer"]
+        },
+        {
+            type: "input",
+            message: "Who is the employees manager?",
+            name: "employeeManager"
+        }
+    ])
+    
 
 }
 
@@ -68,7 +101,15 @@ function updateRole(){
 }
 
 function viewRoles(){
-
+    db.query(`SELECT * FROM employee_role`, (err, result) => {
+        if (err) {
+            console.log('could not select employee_roles from database')
+        }
+        // Print the table
+        console.table(result)
+        // Return to Main Menu
+        // trackEmployees();
+    })
 }
 
 function addRole(){
@@ -76,7 +117,15 @@ function addRole(){
 }
 
 function viewDeps(){
-
+    db.query(`SELECT * FROM department`, (err, result) => {
+        if (err) {
+            console.log('could not select departments from database')
+        }
+        // Print the table
+        console.table(result)
+        // Return to Main Menu
+        // trackEmployees();
+    })
 }
 
 function addDep(){
