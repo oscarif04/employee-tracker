@@ -1,21 +1,21 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
-const consoleTable = require("console.table");
+// const consoleTable = require("console.table");
 const express = require("express");
 
 
-const db = mysql.createConnection(
-    {
+const db = mysql.createConnection({
     host: "localhost",
-
+    // Your username
     user: "root",
-
-    password: "",
-
+    // Your password
+    password: "Swiftdeadly2@",
     database: "employee_db"
-    },
-    console.log("Connected successfully.")
-);
+  },
+    console.log("Connected successfully!"));
+db.connect(function (err) {
+    if (err) throw err;
+  });
 
 
 function startTracker(){
@@ -63,7 +63,7 @@ function viewEmployees(){
         // Print the table
         console.table(result)
         // Return to Main Menu
-        // trackEmployees();
+        trackEmployees();
     })
 }
 
@@ -108,11 +108,29 @@ function viewRoles(){
         // Print the table
         console.table(result)
         // Return to Main Menu
-        // trackEmployees();
+        trackEmployees();
     })
 }
 
 function addRole(){
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the new role's name?",
+            name: "newRoleName"
+        },
+        {
+            type: "input",
+            message: "What is this new role's salary?",
+            name: "newRoleSalary"
+        },
+        {
+            type: "list",
+            message: "Which department does this new role fall under?",
+            name: "newRoleDep",
+            choices: ["Sales", "Engineering", "Financial", "Legal"]
+        }
+    ])
 
 }
 
@@ -124,11 +142,18 @@ function viewDeps(){
         // Print the table
         console.table(result)
         // Return to Main Menu
-        // trackEmployees();
+        trackEmployees();
     })
 }
 
 function addDep(){
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the new department?",
+            name: "newDep"
+        }
+    ])
 
 }
 
